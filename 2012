@@ -1,0 +1,122 @@
+#include <fstream>
+#include <vector>
+using namespace std;
+ifstream fin("elicop.in");
+ofstream fout("elicop.out");
+
+int mat[101][101];
+
+int tri[5][41];
+
+vector<int>v;
+
+int main()
+{
+    int n,m,i,j,d,k1,eli=0,p=0,corect=0;
+    fin>>n>>m;
+    for(i=1;i<=n;i++)
+    {
+        for(j=1;j<=m;j++)
+        {
+            fin>>mat[i][j];
+        }
+    }
+    fin>>k1;
+    for(d=1;d<=k1;d++)
+    {
+        int x1,x2,y1,y2,k,cnt=0,zero=0;
+        fin>>x1>>y1>>x2>>y2>>k;
+        if(x1>x2)
+        {
+            swap(x1,x2);
+            swap(y1,y2);
+        }
+        //fout<<x1<<" "<<y1<<" "<<x2<<" "<<y2<<" "<<tri[d][4]<<"\n";
+        if(k==-1)
+        {
+            if(y1<=y2)
+            {
+                p=0;
+                for(i=x1;i<=x2;i++)
+                {
+                    for(j=y1;j<=y1+p;j++)
+                    {
+                        if(mat[i][j]==0)
+                        {
+                            zero++;
+                        }
+                        cnt++;
+                    }
+                    p++;
+                }
+            }
+            else
+            {
+                p=0;
+                for(i=x1;i<=x2;i++)
+                {
+                    for(j=y1-p;j<=y1;j++)
+                    {
+                        if(mat[i][j]==0)
+                        {
+                            zero++;
+                        }
+                        cnt++;
+                    }
+                    p++;
+                }
+            }
+        }
+        else if(k==1)
+        {
+            if(y1<=y2)
+            {
+                p=0;
+                for(i=x1;i<=x2;i++)
+                {
+                    for(j=y1+p;j<=y2;j++)
+                    {
+                        if(mat[i][j]==0)
+                        {
+                            zero++;
+                        }
+                        cnt++;
+                    }
+                    p++;
+                }
+            }
+            else
+            {
+                p=0;
+                for(i=x1;i<=x2;i++)
+                {
+                    for(j=y1-p;j>=y2;j--)
+                    {
+                        
+                        cnt++;
+                        if(mat[i][j]==0)
+                        {
+                            zero++;
+                        }
+                    }p++;
+                }
+            }
+        }
+        if(zero==0)
+        {
+            corect++;
+        }
+        else if(zero>cnt/2)
+        {
+            v.push_back(d);
+            zero=0;
+        }
+    }
+    fout<<corect<<"\n";
+    fout<<v.size()<<" ";
+    for(i=0;i<v.size();i++)
+    {
+        fout<<v[i]<<" ";
+    }
+    return 0;
+}
